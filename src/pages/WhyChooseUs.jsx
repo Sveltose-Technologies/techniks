@@ -1,18 +1,40 @@
 import React from 'react';
 import { Shield, Users, Target, Clock, DollarSign, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import whyChooseUsBanner from '../assets/home_banner_2.webp';
 
 const WhyChooseUs = () => {
   return (
     <div className="animate-fade-in">
-      <div className="page-header">
-        <div className="container">
-          <h1>Why Choose Techniks Limited?</h1>
-          <p>Customers choose us because we deliver complete technology solutions—not just internet installation.</p>
+      {/* Enhanced Page Header with Banner */}
+      <div style={{
+        position: 'relative',
+        padding: '120px 0',
+        color: 'var(--text-light)',
+        textAlign: 'center',
+        backgroundImage: `url(${whyChooseUsBanner})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+        {/* Dark overlay for readability */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.65)',
+          zIndex: 1
+        }}></div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <h1 style={{ fontSize: '3.8rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
+            Why Choose Techniks?
+          </h1>
+          <p style={{ fontSize: '1.4rem', fontWeight: '500', marginTop: '10px', color: '#fff', textShadow: '0 2px 5px rgba(0,0,0,0.5)', maxWidth: '800px', margin: '10px auto 0' }}>
+            Customers choose us because we deliver complete technology solutions—not just internet installation.
+          </p>
         </div>
       </div>
       
-      <div className="page-content container">
+      <div className="page-content container" style={{ marginTop: '-40px', position: 'relative', zIndex: 3 }}>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', marginBottom: '80px' }}>
           

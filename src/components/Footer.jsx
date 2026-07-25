@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-logo">
             <Link to="/">
-              <img src="/logo.jpeg" alt="TechNiks Logo" className="logo-img" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+              <img src="/logo.png" alt="TechNiks Logo" className="logo-img" onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
               <h2 style={{ display: 'none', color: 'var(--primary-color)', margin: 0 }}>TechNiks</h2>
             </Link>
             <p style={{ marginTop: '15px', maxWidth: '300px', color: '#aaa' }}>
@@ -25,8 +25,8 @@ const Footer = () => {
           <div className="footer-contact">
             <h3 style={{ color: 'var(--primary-color)', marginBottom: '15px' }}>Contact</h3>
             <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', color: '#aaa' }}>
-              <li>info@techniks.com</li>
-              <li>+1 (555) 123-4567</li>
+              <li>techniksnz@gmail.com</li>
+              <li>+64 21 414 738, +64 0220708301</li>
             </ul>
           </div>
         </div>

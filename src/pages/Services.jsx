@@ -1,191 +1,290 @@
-import React from 'react';
-import { Network, Server, Wifi, Shield, Settings, Zap, Phone, Building } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { Network, Server, Wifi, Shield, Settings, Zap, Phone, ChevronRight } from 'lucide-react';
+import serviceImage from '../assets/service_image.webp';
+import servicesBanner from '../assets/services_banner.webp';
 
 const Services = () => {
+  const location = useLocation();
+  const [activeServiceId, setActiveServiceId] = useState('structured-cabling');
+
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    if (hash) {
+      setActiveServiceId(hash);
+    }
+  }, [location]);
+
+  const servicesData = [
+    {
+      id: 'structured-cabling',
+      icon: Server,
+      title: 'Structured Cabling & Network Infrastructure',
+      intro: 'We provide professional installation and management of structured cabling systems that create reliable communication pathways for data and voice networks.',
+      points: [
+        'Cat5e, Cat6, and Cat6A data cabling installation',
+        'Network cable installation and termination',
+        'Patch panel installation and organisation',
+        'Data cabinet and rack installation',
+        'Cable testing and certification',
+        'Cable fault finding and repairs',
+        'Office and commercial network infrastructure',
+        'New building telecommunications installations'
+      ],
+      footer: 'A properly designed cabling system improves network performance, reduces downtime, and provides a foundation for future technology upgrades.'
+    },
+    {
+      id: 'fibre-broadband',
+      icon: Wifi,
+      title: 'Fibre & Broadband Connectivity Support',
+      intro: 'Techniks Limited supports customers with modern high-speed connectivity solutions by assisting with installation, configuration, and optimisation of internet infrastructure.',
+      points: [
+        'Fibre internet connection support',
+        'Fibre termination and equipment setup',
+        'ONT and router configuration',
+        'Broadband connection troubleshooting',
+        'Internet fault diagnosis',
+        'Network performance testing',
+        'Business-grade connectivity solutions'
+      ],
+      footer: 'We ensure customers receive the best possible performance from their internet services by combining quality infrastructure with professional configuration.'
+    },
+    {
+      id: 'voice-communication',
+      icon: Phone,
+      title: 'Voice & Communication Systems',
+      intro: 'Modern businesses require reliable communication systems to connect with customers, suppliers, and employees.',
+      points: [
+        'VoIP phone system installation',
+        'Business phone network setup',
+        'Communication device configuration',
+        'Internal office communication solutions',
+        'Remote communication support',
+        'Integration of voice and data networks'
+      ],
+      footer: 'Our solutions help businesses improve communication efficiency while reducing operational complexity.'
+    },
+    {
+      id: 'network-installation',
+      icon: Network,
+      title: 'Network Installation & Configuration',
+      intro: 'A strong telecommunications network requires careful planning and professional installation.',
+      points: [
+        'Router and switch installation',
+        'Network equipment configuration',
+        'Wireless network deployment',
+        'LAN and WAN setup',
+        'Network expansion and upgrades',
+        'Connectivity troubleshooting',
+        'Secure network configuration'
+      ],
+      footer: 'Our team ensures networks are reliable, efficient, and ready to support business operations.'
+    },
+    {
+      id: 'it-support',
+      icon: Settings,
+      title: 'IT Support & Security Services',
+      intro: 'Technology issues and security threats can disrupt your work and compromise important information. Our technicians provide reliable support to keep your systems running efficiently and securely.',
+      points: [
+        'Computer and laptop setup',
+        'Software installation & OS support',
+        'Virus and malware removal',
+        'Security software installation',
+        'Data backup configuration',
+        'Printer and device setup',
+        'Hardware upgrades',
+        'System performance optimization'
+      ],
+      footer: 'We ensure that devices are updated with the latest security patches and configured according to best-practice security standards.'
+    },
+    {
+      id: 'maintenance-support',
+      icon: Zap,
+      title: 'Telecommunications Maintenance & Support',
+      intro: 'Technology infrastructure requires ongoing monitoring and maintenance to ensure reliable performance.',
+      points: [
+        'Telecommunications fault finding',
+        'Network troubleshooting',
+        'Equipment replacement',
+        'Cable repairs',
+        'System upgrades',
+        'Performance improvements',
+        'Preventative maintenance'
+      ],
+      footer: 'We help customers minimise downtime and maintain reliable communication services.'
+    },
+    {
+      id: 'cybersecurity-integration',
+      icon: Shield,
+      title: 'Secure Telecommunications & Cybersecurity Integration',
+      intro: 'As telecommunications systems become increasingly connected, security is a critical requirement. Techniks Limited integrates cybersecurity practices into telecommunications solutions.',
+      points: [
+        'Secure network configuration',
+        'Firewall protection',
+        'Access control management',
+        'Secure wireless communication',
+        'Protection against unauthorised access',
+        'Network vulnerability reduction',
+        'Data protection practices'
+      ],
+      footer: 'We ensure communication infrastructure is not only fast and reliable but also protected against modern cyber threats.'
+    }
+  ];
+
+  const activeService = servicesData.find(s => s.id === activeServiceId) || servicesData[0];
+  const ActiveIcon = activeService.icon;
+
   return (
-    <div className="animate-fade-in">
-      <div className="page-header">
-        <div className="container">
-          <h1>What We Do</h1>
-          <p>Building Reliable Communication Infrastructure for Homes and Businesses</p>
+    <div className="animate-fade-in" style={{ backgroundColor: '#f4f6f9', minHeight: '100vh' }}>
+      <style>
+        {`
+          .service-menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+            background-color: #fff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+          }
+          .service-menu-item:hover {
+            background-color: #fafafa;
+            color: var(--primary-color);
+            transform: translateX(5px);
+          }
+          .service-menu-item.active {
+            color: var(--primary-color);
+            background-color: var(--secondary-color);
+            font-weight: 600;
+            transform: none;
+          }
+          .service-menu-item.active:hover {
+            transform: none;
+          }
+          /* Custom scrollbar for sidebar */
+          .sidebar-scroll::-webkit-scrollbar {
+            width: 6px;
+          }
+          .sidebar-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+          }
+          .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #ccc; 
+            border-radius: 10px;
+          }
+          .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color); 
+          }
+        `}
+      </style>
+      {/* Dynamic Header with New Banner */}
+      <div style={{
+        padding: '120px 0',
+        color: 'var(--text-light)',
+        textAlign: 'center',
+        backgroundImage: `url(${servicesBanner})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'relative'
+      }}>
+        {/* Dark overlay for readability */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          zIndex: 1
+        }}></div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <h1 style={{ fontSize: '3.8rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)', letterSpacing: '1px' }}>What We Do</h1>
+          <p style={{ fontSize: '1.4rem', color: '#fff', maxWidth: '800px', margin: '0 auto', fontWeight: '500', textShadow: '0 2px 5px rgba(0,0,0,0.5)' }}>Building Reliable Communication Infrastructure for Homes and Businesses</p>
         </div>
       </div>
       
-      <div className="page-content container">
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      <div className="page-content container" style={{ padding: '60px 20px', marginTop: '-40px', position: 'relative', zIndex: 3 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px' }}>
           
-          <section style={{ marginBottom: '60px', textAlign: 'center' }}>
-            <p style={{ fontSize: '1.2rem', color: '#555', lineHeight: '1.8', marginBottom: '20px' }}>
-              At Techniks Limited, we understand that reliable telecommunications infrastructure is the foundation of modern connectivity. From homes and small businesses to large commercial environments, effective communication systems require professional design, installation, configuration, and ongoing maintenance.
-            </p>
-            <p style={{ fontSize: '1.1rem', color: '#666', lineHeight: '1.8', marginBottom: '20px' }}>
-              Our telecommunications services focus on delivering high-performance voice, data, and network connectivity solutions that enable seamless communication, faster information sharing, and improved business productivity.
-            </p>
-            <p style={{ fontSize: '1.1rem', color: '#666', lineHeight: '1.8' }}>
-              With the rapid growth of digital technology, businesses require more than just an internet connection. They need reliable structured cabling, secure network infrastructure, efficient communication systems, and solutions that can support future technology growth. Techniks Limited provides end-to-end telecommunications services designed to meet these evolving requirements.
-            </p>
-          </section>
-
-          <h2 style={{ fontSize: '2.5rem', color: 'var(--secondary-color)', marginBottom: '40px', textAlign: 'center', borderBottom: '2px solid var(--primary-color)', paddingBottom: '20px' }}>
-            Our Telecommunications Services Include
-          </h2>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
-            
-            {/* Service 1 */}
-            <section id="structured-cabling" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Server size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>Structured Cabling & Network Infrastructure</h3>
+          {/* Scrollable Sidebar Menu */}
+          <div style={{ flex: '1 1 300px', maxWidth: '350px' }}>
+            <div style={{ backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+              <div style={{ padding: '25px', backgroundColor: 'var(--primary-color)', color: 'var(--secondary-color)' }}>
+                <h3 style={{ fontSize: '1.4rem', fontWeight: 'bold', margin: 0 }}>Our Services</h3>
               </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>We provide professional installation and management of structured cabling systems that create reliable communication pathways for data and voice networks. Our services include:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>Cat5e, Cat6, and Cat6A data cabling installation</li>
-                <li>Network cable installation and termination</li>
-                <li>Patch panel installation and organisation</li>
-                <li>Data cabinet and rack installation</li>
-                <li>Cable testing and certification</li>
-                <li>Cable fault finding and repairs</li>
-                <li>Office and commercial network infrastructure</li>
-                <li>New building telecommunications installations</li>
+              <ul className="sidebar-scroll" style={{ listStyle: 'none', padding: 0, margin: 0, maxHeight: '450px', overflowY: 'auto' }}>
+                {servicesData.map(service => (
+                  <li key={service.id}>
+                    <Link 
+                      to={`#${service.id}`}
+                      className={`service-menu-item ${activeServiceId === service.id ? 'active' : ''}`}
+                      onClick={() => setActiveServiceId(service.id)}
+                    >
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <service.icon size={20} color={activeServiceId === service.id ? 'var(--primary-color)' : '#999'} />
+                        {service.title}
+                      </span>
+                      {activeServiceId === service.id && <ChevronRight size={18} />}
+                    </Link>
+                  </li>
+                ))}
               </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>A properly designed cabling system improves network performance, reduces downtime, and provides a foundation for future technology upgrades.</p>
-            </section>
-
-            {/* Service 2 */}
-            <section id="fibre-broadband" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Wifi size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>Fibre & Broadband Connectivity Support</h3>
-              </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>Techniks Limited supports customers with modern high-speed connectivity solutions by assisting with installation, configuration, and optimisation of internet infrastructure. Our services include:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>Fibre internet connection support</li>
-                <li>Fibre termination and equipment setup</li>
-                <li>ONT and router configuration</li>
-                <li>Broadband connection troubleshooting</li>
-                <li>Internet fault diagnosis</li>
-                <li>Network performance testing</li>
-                <li>Business-grade connectivity solutions</li>
-              </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>We ensure customers receive the best possible performance from their internet services by combining quality infrastructure with professional configuration.</p>
-            </section>
-
-            {/* Service 3 */}
-            <section id="voice-communication" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Phone size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>Voice & Communication Systems</h3>
-              </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>Modern businesses require reliable communication systems to connect with customers, suppliers, and employees. Techniks Limited provides support for:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>VoIP phone system installation</li>
-                <li>Business phone network setup</li>
-                <li>Communication device configuration</li>
-                <li>Internal office communication solutions</li>
-                <li>Remote communication support</li>
-                <li>Integration of voice and data networks</li>
-              </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>Our solutions help businesses improve communication efficiency while reducing operational complexity.</p>
-            </section>
-
-            {/* Service 4 */}
-            <section id="network-installation" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Network size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>Network Installation & Configuration</h3>
-              </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>A strong telecommunications network requires careful planning and professional installation. We provide:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>Router and switch installation</li>
-                <li>Network equipment configuration</li>
-                <li>Wireless network deployment</li>
-                <li>LAN and WAN setup</li>
-                <li>Network expansion and upgrades</li>
-                <li>Connectivity troubleshooting</li>
-                <li>Secure network configuration</li>
-              </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>Our team ensures networks are reliable, efficient, and ready to support business operations.</p>
-            </section>
-
-            {/* Service 5 */}
-            <section id="it-support" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Settings size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>IT Support & Security Services</h3>
-              </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>Technology issues and security threats can disrupt your work and compromise important information. Our technicians provide reliable support to keep your systems running efficiently and securely. Our IT support includes:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>Computer and laptop setup</li>
-                <li>Software installation</li>
-                <li>Operating system support</li>
-                <li>Virus and malware removal</li>
-                <li>Security software installation</li>
-                <li>Data backup configuration</li>
-                <li>Printer and device setup</li>
-                <li>Hardware upgrades</li>
-                <li>System performance optimization</li>
-                <li>General technical assistance</li>
-              </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>We ensure that devices are updated with the latest security patches and configured according to best-practice security standards.</p>
-            </section>
-
-            {/* Service 6 */}
-            <section id="maintenance-support" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Zap size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>Telecommunications Maintenance & Support</h3>
-              </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>Technology infrastructure requires ongoing monitoring and maintenance to ensure reliable performance. Our support services include:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>Telecommunications fault finding</li>
-                <li>Network troubleshooting</li>
-                <li>Equipment replacement</li>
-                <li>Cable repairs</li>
-                <li>System upgrades</li>
-                <li>Performance improvements</li>
-                <li>Preventative maintenance</li>
-              </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>We help customers minimise downtime and maintain reliable communication services.</p>
-            </section>
-
-            {/* Service 7 */}
-            <section id="cybersecurity-integration" style={{ padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 5px 20px rgba(0,0,0,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                <Shield size={32} color="var(--primary-color)" />
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--secondary-color)' }}>Secure Telecommunications & Cybersecurity Integration</h3>
-              </div>
-              <p style={{ color: '#555', marginBottom: '15px', fontSize: '1.1rem' }}>As telecommunications systems become increasingly connected, security is a critical requirement. Techniks Limited integrates cybersecurity practices into telecommunications solutions by focusing on:</p>
-              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#444', lineHeight: '1.8' }}>
-                <li>Secure network configuration</li>
-                <li>Firewall protection</li>
-                <li>Access control management</li>
-                <li>Secure wireless communication</li>
-                <li>Protection against unauthorised access</li>
-                <li>Network vulnerability reduction</li>
-                <li>Data protection practices</li>
-              </ul>
-              <p style={{ color: '#555', marginTop: '15px', fontStyle: 'italic' }}>We ensure communication infrastructure is not only fast and reliable but also protected against modern cyber threats.</p>
-            </section>
-
+            </div>
           </div>
-        </div>
 
-        {/* Environments Section */}
-        <div style={{ marginTop: '80px', backgroundColor: 'var(--bg-dark)', color: 'var(--text-light)', padding: '60px', borderRadius: '12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '30px', justifyContent: 'center' }}>
-            <Building size={40} color="var(--primary-color)" />
-            <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: 0 }}>Solutions for Different Environments</h2>
+          {/* Main Content Area */}
+          <div style={{ flex: '2 1 600px', display: 'flex', flexDirection: 'column', gap: '30px' }}>
+            <div style={{ backgroundColor: '#fff', borderRadius: '16px', boxShadow: '0 15px 40px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
+              
+              {/* Dynamic Image */}
+              <div style={{
+                height: '350px',
+                backgroundImage: `url(${serviceImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                position: 'relative'
+              }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)' }}></div>
+                <div style={{ position: 'absolute', bottom: '30px', left: '40px', right: '40px', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                  <div style={{ padding: '20px', backgroundColor: 'var(--primary-color)', borderRadius: '12px', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>
+                    <ActiveIcon size={40} color="var(--secondary-color)" />
+                  </div>
+                  <h2 style={{ fontSize: '2.5rem', color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.5)', fontWeight: 'bold', margin: 0 }}>{activeService.title}</h2>
+                </div>
+              </div>
+
+              {/* Dynamic Content */}
+              <div style={{ padding: '50px' }} className="animate-fade-in" key={activeService.id}>
+                <p style={{ fontSize: '1.2rem', color: '#444', lineHeight: '1.9', marginBottom: '30px', borderLeft: '4px solid var(--primary-color)', paddingLeft: '20px' }}>
+                  {activeService.intro}
+                </p>
+                
+                <h3 style={{ fontSize: '1.5rem', color: 'var(--secondary-color)', marginBottom: '20px' }}>What this service includes:</h3>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px', marginBottom: '40px' }}>
+                  {activeService.points.map((point, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '8px', transition: 'transform 0.2s ease', cursor: 'default' }}
+                         onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                         onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                      <div style={{ marginTop: '3px' }}>
+                        <ChevronRight size={18} color="var(--primary-color)" />
+                      </div>
+                      <span style={{ color: '#555', lineHeight: '1.5' }}>{point}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ padding: '25px', backgroundColor: 'var(--bg-light)', borderRadius: '12px', border: '1px dashed #ccc' }}>
+                  <p style={{ color: '#666', fontStyle: 'italic', fontSize: '1.1rem', margin: 0, textAlign: 'center' }}>
+                    "{activeService.footer}"
+                  </p>
+                </div>
+              </div>
+
+            </div>
           </div>
-          <p style={{ textAlign: 'center', fontSize: '1.2rem', marginBottom: '30px', color: '#ccc' }}>Techniks Limited provides telecommunications services for a wide variety of setups:</p>
-          
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px' }}>
-            {['Residential properties', 'Small businesses', 'Offices', 'Retail environments', 'Warehouses', 'Commercial buildings', 'Educational facilities', 'Industrial environments'].map((env, index) => (
-              <span key={index} style={{ backgroundColor: 'rgba(255, 204, 0, 0.1)', border: '1px solid var(--primary-color)', color: 'var(--primary-color)', padding: '10px 20px', borderRadius: '20px', fontWeight: '500' }}>
-                {env}
-              </span>
-            ))}
-          </div>
+
         </div>
       </div>
     </div>
