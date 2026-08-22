@@ -3,10 +3,18 @@ import { useLocation, Link } from 'react-router-dom';
 import { Network, Server, Wifi, Shield, Settings, Zap, Phone, ChevronRight } from 'lucide-react';
 import serviceImage from '../assets/service_image.webp';
 import servicesBanner from '../assets/services_banner.webp';
+import { servicesAPI } from '../api/endpoints';
+import { IMAGE_BASE_URL } from '../config';
 
 const Services = () => {
   const location = useLocation();
   const [activeServiceId, setActiveServiceId] = useState('structured-cabling');
+  const [bannerData, setBannerData] = useState({
+    title: 'What We Do',
+    description: 'Building Reliable Communication Infrastructure for Homes and Businesses',
+    bannerImage: servicesBanner,
+    serviceImage: serviceImage
+  });
 
   useEffect(() => {
     const hash = location.hash.replace('#', '');
@@ -14,6 +22,26 @@ const Services = () => {
       setActiveServiceId(hash);
     }
   }, [location]);
+
+  useEffect(() => {
+    const fetchBannerData = async () => {
+      try {
+        const result = await servicesAPI.getBannerContent();
+        if (result.status && result.data && result.data.length > 0) {
+          const data = result.data[0];
+          setBannerData({
+            title: data.title || 'What We Do',
+            description: data.description || 'Building Reliable Communication Infrastructure for Homes and Businesses',
+            bannerImage: data.bannerImage ? `${IMAGE_BASE_URL}${data.bannerImage}` : servicesBanner,
+            serviceImage: data.serviceImage ? `${IMAGE_BASE_URL}${data.serviceImage}` : serviceImage
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching services banner details:", error);
+      }
+    };
+    fetchBannerData();
+  }, []);
 
   const servicesData = [
     {
@@ -185,7 +213,7 @@ const Services = () => {
         padding: '120px 0',
         color: 'var(--text-light)',
         textAlign: 'center',
-        backgroundImage: `url(${servicesBanner})`,
+        backgroundImage: `url(${bannerData.bannerImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative'
@@ -199,14 +227,14 @@ const Services = () => {
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <h1 style={{ fontSize: '3.8rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)', letterSpacing: '1px' }}>What We Do</h1>
-          <p style={{ fontSize: '1.4rem', color: '#fff', maxWidth: '800px', margin: '0 auto', fontWeight: '500', textShadow: '0 2px 5px rgba(0,0,0,0.5)' }}>Building Reliable Communication Infrastructure for Homes and Businesses</p>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)', letterSpacing: '1px' }}>{bannerData.title}</h1>
+          <p style={{ fontSize: '1.2rem', color: '#fff', maxWidth: '800px', margin: '0 auto', fontWeight: '500', textShadow: '0 2px 5px rgba(0,0,0,0.5)' }}>{bannerData.description}</p>
         </div>
       </div>
-      
+
       <div className="page-content container" style={{ padding: '60px 20px', marginTop: '-40px', position: 'relative', zIndex: 3 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px' }}>
-          
+
           {/* Scrollable Sidebar Menu */}
           <div style={{ flex: '1 1 300px', maxWidth: '350px' }}>
             <div style={{ backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
@@ -216,7 +244,7 @@ const Services = () => {
               <ul className="sidebar-scroll" style={{ listStyle: 'none', padding: 0, margin: 0, maxHeight: '450px', overflowY: 'auto' }}>
                 {servicesData.map(service => (
                   <li key={service.id}>
-                    <Link 
+                    <Link
                       to={`#${service.id}`}
                       className={`service-menu-item ${activeServiceId === service.id ? 'active' : ''}`}
                       onClick={() => setActiveServiceId(service.id)}
@@ -236,11 +264,11 @@ const Services = () => {
           {/* Main Content Area */}
           <div style={{ flex: '2 1 600px', display: 'flex', flexDirection: 'column', gap: '30px' }}>
             <div style={{ backgroundColor: '#fff', borderRadius: '16px', boxShadow: '0 15px 40px rgba(0,0,0,0.06)', overflow: 'hidden' }}>
-              
+
               {/* Dynamic Image */}
               <div style={{
                 height: '350px',
-                backgroundImage: `url(${serviceImage})`,
+                backgroundImage: `url(${bannerData.serviceImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 position: 'relative'
@@ -259,14 +287,14 @@ const Services = () => {
                 <p style={{ fontSize: '1.2rem', color: '#444', lineHeight: '1.9', marginBottom: '30px', borderLeft: '4px solid var(--primary-color)', paddingLeft: '20px' }}>
                   {activeService.intro}
                 </p>
-                
+
                 <h3 style={{ fontSize: '1.5rem', color: 'var(--secondary-color)', marginBottom: '20px' }}>What this service includes:</h3>
-                
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px', marginBottom: '40px' }}>
                   {activeService.points.map((point, idx) => (
                     <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '8px', transition: 'transform 0.2s ease', cursor: 'default' }}
-                         onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                         onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                      onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                       <div style={{ marginTop: '3px' }}>
                         <ChevronRight size={18} color="var(--primary-color)" />
                       </div>

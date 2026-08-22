@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Shield, Users, Target, Clock, DollarSign, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { whyChooseUsAPI } from '../api/endpoints';
+import { IMAGE_BASE_URL } from '../config';
 import whyChooseUsBanner from '../assets/home_banner_2.webp';
 
 const WhyChooseUs = () => {
+  const [bannerData, setBannerData] = useState({
+    title: 'Why Choose Techniks?',
+    description: 'Customers choose us because we deliver complete technology solutions—not just internet installation.',
+    bannerImage: whyChooseUsBanner
+  });
+
+  useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        const result = await whyChooseUsAPI.getWhyChooseBanner();
+        if (result.status && result.data && result.data.length > 0) {
+          const data = result.data[0];
+          setBannerData({
+            title: data.title || 'Why Choose Techniks?',
+            description: data.description || 'Customers choose us because we deliver complete technology solutions—not just internet installation.',
+            bannerImage: data.bannerImage ? `${IMAGE_BASE_URL}${data.bannerImage}` : whyChooseUsBanner
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching why choose us banner:", error);
+      }
+    };
+    fetchBanner();
+  }, []);
+
   return (
     <div className="animate-fade-in">
       {/* Enhanced Page Header with Banner */}
@@ -12,7 +39,7 @@ const WhyChooseUs = () => {
         padding: '120px 0',
         color: 'var(--text-light)',
         textAlign: 'center',
-        backgroundImage: `url(${whyChooseUsBanner})`,
+        backgroundImage: `url(${bannerData.bannerImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}>
@@ -25,11 +52,11 @@ const WhyChooseUs = () => {
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <h1 style={{ fontSize: '3.8rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
-            Why Choose Techniks?
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
+            {bannerData.title}
           </h1>
-          <p style={{ fontSize: '1.4rem', fontWeight: '500', marginTop: '10px', color: '#fff', textShadow: '0 2px 5px rgba(0,0,0,0.5)', maxWidth: '800px', margin: '10px auto 0' }}>
-            Customers choose us because we deliver complete technology solutions—not just internet installation.
+          <p style={{ fontSize: '1.2rem', fontWeight: '500', marginTop: '10px', color: '#fff', textShadow: '0 2px 5px rgba(0,0,0,0.5)', maxWidth: '800px', margin: '10px auto 0' }}>
+            {bannerData.description}
           </p>
         </div>
       </div>

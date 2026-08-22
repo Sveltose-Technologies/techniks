@@ -97,10 +97,10 @@ const Contact = () => {
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <h1 style={{ fontSize: '3.8rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '15px', color: 'var(--primary-color)', fontWeight: '800', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
             Contact Techniks Limited
           </h1>
-          <p style={{ fontSize: '1.4rem', fontWeight: '500', marginTop: '10px', color: '#fff', textShadow: '0 2px 5px rgba(0,0,0,0.5)' }}>
+          <p style={{ fontSize: '1.2rem', fontWeight: '500', marginTop: '10px', color: '#fff', textShadow: '0 2px 5px rgba(0,0,0,0.5)' }}>
             Fast Internet. Smart Technology. Strong Security.
           </p>
         </div>

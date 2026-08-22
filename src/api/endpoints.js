@@ -17,3 +17,39 @@ export const aboutUsAPI = {
     return response.data;
   }
 };
+
+export const footerAPI = {
+  getFooterContent: async () => {
+    const response = await api.get('/footer/get-all');
+    return response.data;
+  }
+};
+
+export const servicesAPI = {
+  getBannerContent: async () => {
+    const response = await api.get('/what-we-do-banner/get-all');
+    return response.data;
+  }
+};
+
+export const homeAPI = {
+  getHomeHeaderContent: async () => {
+    const response = await api.get('/home-header-content/get-all');
+    return response.data;
+  },
+  getHomeHeroSection: async () => {
+    const response = await api.get('/home-hero-section/get-all');
+    return response.data;
+  },
+  getHomeContent: async () => {
+    const response = await api.get('/home-content/get-all');
+    return response.data;
+  }
+};
+
+export const whyChooseUsAPI = {
+  getWhyChooseBanner: async () => {
+    const response = await api.get('/why-choose-techniks-banner/get-all');
+    return response.data;
+  }
+};

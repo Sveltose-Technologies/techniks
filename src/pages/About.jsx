@@ -76,7 +76,7 @@ const About = () => {
         overflow: 'hidden'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <h1 style={{ fontSize: '3.5rem', marginBottom: '15px', fontWeight: '800', letterSpacing: '1px' }}>About Us</h1>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '15px', fontWeight: '800', letterSpacing: '1px' }}>About Us</h1>
           <p style={{ fontSize: '1.2rem', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>Discover our Vision, Mission, and Core Values.</p>
         </div>
         {/* Subtle background decoration */}
