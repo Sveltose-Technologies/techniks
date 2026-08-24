@@ -11,6 +11,7 @@ const WhyChooseUs = () => {
     description: 'Customers choose us because we deliver complete technology solutions—not just internet installation.',
     bannerImage: whyChooseUsBanner
   });
+  const [featuresData, setFeaturesData] = useState([]);
 
   useEffect(() => {
     const fetchBanner = async () => {
@@ -28,8 +29,33 @@ const WhyChooseUs = () => {
         console.error("Error fetching why choose us banner:", error);
       }
     };
+
+    const fetchFeatures = async () => {
+      try {
+        const result = await whyChooseUsAPI.getWhyChooseData();
+        if (result.success && result.data) {
+          setFeaturesData(result.data);
+        }
+      } catch (error) {
+        console.error("Error fetching why choose us data:", error);
+      }
+    };
+
     fetchBanner();
+    fetchFeatures();
   }, []);
+
+  const getIconComponent = (title) => {
+    switch (title) {
+      case 'Secure Connectivity': return <Shield size={40} color="var(--primary-color)" />;
+      case 'Professional Expertise': return <Users size={40} color="var(--primary-color)" />;
+      case 'Tailored Solutions': return <Target size={40} color="var(--primary-color)" />;
+      case 'Reliable Service': return <Clock size={40} color="var(--primary-color)" />;
+      case 'Affordable Protection': return <DollarSign size={40} color="var(--primary-color)" />;
+      case 'Ongoing Support': return <Activity size={40} color="var(--primary-color)" />;
+      default: return <Target size={40} color="var(--primary-color)" />;
+    }
+  };
 
   return (
     <div className="animate-fade-in">
@@ -65,59 +91,15 @@ const WhyChooseUs = () => {
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', marginBottom: '80px' }}>
           
-          {/* Feature 1 */}
-          <div style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <Shield size={40} color="var(--primary-color)" />
+          {[...featuresData].reverse().map((feature, index) => (
+            <div key={feature._id || index} style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
+              <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+                {getIconComponent(feature.title)}
+              </div>
+              <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>{feature.title}</h3>
+              <p style={{ color: '#666', lineHeight: '1.6' }}>{feature.description}</p>
             </div>
-            <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>Secure Connectivity</h3>
-            <p style={{ color: '#666', lineHeight: '1.6' }}>Every network we install is designed with cyber security in mind.</p>
-          </div>
-
-          {/* Feature 2 */}
-          <div style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <Users size={40} color="var(--primary-color)" />
-            </div>
-            <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>Professional Expertise</h3>
-            <p style={{ color: '#666', lineHeight: '1.6' }}>Our technicians are experienced in internet services, networking, CCTV systems, and cyber security technologies.</p>
-          </div>
-
-          {/* Feature 3 */}
-          <div style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <Target size={40} color="var(--primary-color)" />
-            </div>
-            <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>Tailored Solutions</h3>
-            <p style={{ color: '#666', lineHeight: '1.6' }}>We assess your environment and recommend solutions that match your performance and security requirements.</p>
-          </div>
-
-          {/* Feature 4 */}
-          <div style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <Clock size={40} color="var(--primary-color)" />
-            </div>
-            <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>Reliable Service</h3>
-            <p style={{ color: '#666', lineHeight: '1.6' }}>We are committed to quality workmanship, punctual service, and long-term customer support.</p>
-          </div>
-
-          {/* Feature 5 */}
-          <div style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <DollarSign size={40} color="var(--primary-color)" />
-            </div>
-            <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>Affordable Protection</h3>
-            <p style={{ color: '#666', lineHeight: '1.6' }}>We provide practical cyber security measures that fit the needs and budgets of both households and businesses.</p>
-          </div>
-
-          {/* Feature 6 */}
-          <div style={{ padding: '40px 30px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: 'var(--bg-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <Activity size={40} color="var(--primary-color)" />
-            </div>
-            <h3 style={{ marginBottom: '15px', fontSize: '1.4rem' }}>Ongoing Support</h3>
-            <p style={{ color: '#666', lineHeight: '1.6' }}>Technology and security threats evolve constantly. We remain available to help maintain, update, and improve your systems over time.</p>
-          </div>
+          ))}
 
         </div>
 

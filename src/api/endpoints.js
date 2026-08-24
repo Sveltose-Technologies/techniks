@@ -51,5 +51,9 @@ export const whyChooseUsAPI = {
   getWhyChooseBanner: async () => {
     const response = await api.get('/why-choose-techniks-banner/get-all');
     return response.data;
+  },
+  getWhyChooseData: async () => {
+    const response = await api.get('/why-choose-techniks/get-all');
+    return response.data;
   }
 };
